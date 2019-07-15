@@ -6,3 +6,17 @@ spec:
   containers:
     - name: web
       image: piphonom/web-app:latest
+      volumeMounts:
+        - name: app
+          mountPath: /app
+  initContainers:
+    - name: init-web
+      image: busybox:1.31.0
+#      command: ['sh', '-c', 'wget -O- https://raw.githubusercontent.com/express42/otus-platformsnippets/master/Module-02/Introduction-to-Kubernetes/wget.sh | sh']
+      command: ['sh', '-c', 'touch /app/index.html | echo "Hello world" > /app/index.html']
+      volumeMounts:
+        - name: app
+          mountPath: /app
+  volumes:
+    - name: app
+      emptyDir: {}
